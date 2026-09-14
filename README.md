@@ -1,0 +1,65 @@
+# Dashboard de Compras Públicas de Saúde — Banco de Preços em Saúde (BPS) 2020–2026
+
+> Mini-Projeto Avaliativo — Módulo 2 (Visualização de Dados e Business Intelligence) — SCTEC/SENAI-SC
+> Autor: Sérgio Fonseca Leite Junior
+
+## 1. Objetivo do projeto
+<!-- Em 3-4 linhas: o que o dashboard entrega e para quem. -->
+
+## 2. Contextualização do problema
+<!-- Por que preços/compras públicas de saúde importam. Reaproveite o contexto do BPS. -->
+
+## 3. Fonte dos dados
+- Banco de Preços em Saúde (BPS) — Ministério da Saúde
+- Portal Brasileiro de Dados Abertos: https://dadosabertos.saude.gov.br/dataset/bps
+- Dicionário de dados oficial: (link)
+- Período: arquivos anuais .csv de 2020 a 2026
+
+## 4. Procedimentos para baixar e concatenar as bases
+<!-- Passo a passo real do que você fez: onde baixou, como nomeou os arquivos, ferramenta usada para concatenar (python/excel/power query), link do script (scripts/concatenar_bases.py). -->
+
+## 5. Tratamentos e transformações realizadas
+<!-- Encoding, nulos, duplicados, padronização de colunas, datas, valores monetários. Liste discrepâncias entre anos e como foram resolvidas (ver docs/discrepancias-entre-anos.md). -->
+
+## 6. Descrição das principais colunas utilizadas
+| Coluna | Descrição | Tipo |
+|---|---|---|
+| | | |
+
+## 7. Definição dos KPIs e métricas
+| KPI | Fórmula/Lógica | Observação |
+|---|---|---|
+| Valor total registrado | SOMA(preco_total) | |
+| Quantidade total de itens comprados | SOMA(quantidade) | |
+| Número de registros de compra | CONTAGEM(linhas) | |
+| Instituições compradoras | CONTAGEM DISTINTA(instituição) | |
+| Fornecedores | CONTAGEM DISTINTA(fornecedor) | |
+| Preço unitário médio ponderado | valor total / quantidade total | Interpretar com cautela ao filtrar produtos/unidades diferentes |
+
+## 8. Link ou imagens do dashboard
+<!-- Link público do Looker Studio ou Power BI + prints em dashboard/imagens/ -->
+
+## 9. Principais análises e descobertas
+<!-- Bullets com os achados mais relevantes por estado/instituição/produto/fornecedor/tempo. -->
+
+## 10. Recomendações baseadas nos dados
+<!-- 3-5 recomendações objetivas para gestão pública/negociação de compras. -->
+
+## 11. Limitações identificadas
+<!-- Ex: variações de preço não implicam sobrepreço automaticamente; possíveis lacunas na base; diferenças de estrutura entre anos. -->
+
+## 12. Instruções para reprodução do projeto
+```bash
+# 1. Clonar o repositório
+git clone https://github.com/engsergioleite/bps-saude-dashboard.git
+
+# 2. Baixar os csv de 2020-2026 do portal BPS e salvar em data/raw/
+
+# 3. Rodar o script de concatenação
+python scripts/concatenar_bases.py
+
+# 4. Abrir data/processed/BPS_20_26_SergioLeite.csv no Looker Studio / Power BI
+```
+
+## Vídeo de apresentação
+Link: (inserir link do vídeo, hospedado no repositório ou YouTube não listado)
