@@ -44,6 +44,15 @@
   linhas mantêm valores financeiros válidos, optou-se por preencher com o rótulo
   "Não informado" em vez de remover o registro, evitando perda de dado financeiro
   real por causa de um único campo ausente.
+- Verificação de registros duplicados: nenhuma linha duplicada encontrada nos
+  7 anos, tanto considerando todas as colunas quanto a chave única de registro
+  (`co_seq_bps`), que se confirmou sem repetições em nenhum dos anos.
+- Conversão de tipos: `dt_compra` e `dt_insercao` vieram como texto (`str`,
+  formato dd/mm/aaaa) e foram convertidas para tipo data (`datetime64`) com
+  `pd.to_datetime`. Validado que o intervalo de datas de cada ano corresponde
+  ao ano do arquivo (ex: 2020 varia de 01/01/2020 a 31/12/2020, sem valores
+  fora da faixa). As colunas numéricas (`vl_preco_unitario`, `vl_preco_total`,
+  `qt_medicamento`) já vieram corretamente tipadas na leitura original.
 
 <!-- Encoding, nulos, duplicados, padronização de colunas, datas, valores monetários. Liste discrepâncias entre anos e como foram resolvidas (ver docs/discrepancias-entre-anos.md). -->
 
@@ -83,15 +92,27 @@
 ## 12. Instruções para reprodução do projeto
 
 ```bash
+> Nota: tanto os csv brutos (`data/raw/`) quanto a base consolidada
+> (`data/processed/`) não são versionados no git (arquivo final tem ~203MB,
+> acima do limite do GitHub). Siga os passos abaixo para gerá-los localmente.
+
+```bash
 # 1. Clonar o repositório
-git clone https://github.com/engsergioleite/bps-saude-dashboard.git
+git clone https://github.com/engsergioleite/engsergioleite-projeto-sctec-saude-dashboard.git
 
-# 2. Baixar os csv de 2020-2026 do portal BPS e salvar em data/raw/
+# 2. Baixar os csv de 2020 a 2026 no portal do BPS e salvar em data/raw/
+# https://dadosabertos.saude.gov.br/dataset/bps
+# Renomear os arquivos para 2020.csv, 2021.csv, ..., 2026.csv
 
-# 3. Rodar o script de concatenação
-python scripts/concatenar_bases.py
+# 3. Instalar as dependências
+pip install pandas
 
-# 4. Abrir data/processed/BPS_20_26_SergioLeite.csv no Looker Studio / Power BI
+# 4. Rodar o notebook de tratamento e concatenação
+# Abrir scripts/inspecao_base.ipynb no VS Code (ou Jupyter) e executar todas as células
+# Isso gera data/processed/BPS_20_26_SergioLeite.csv
+
+# 5. Abrir o arquivo consolidado no Power BI Desktop para explorar o dashboard
+```
 ```
 
 ## Vídeo de apresentação
