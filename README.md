@@ -33,6 +33,17 @@
   enquanto 2023-2025 apresentam entre ~28 mil e ~34 mil registros/ano, e 2026
   (parcial, ano em curso) tem 11 mil registros até o momento da coleta.
 - (a completar após Sprint 2: tratamento de nulos, duplicados e tipos de dado)
+- Verificação de valores nulos: identificados nulos e esperados em
+  campos que não se aplicam a todo item (ex: `vl_capacidade`, `un_fornecimento`,
+  `registro_anvisa`, `nu_ata`, `ds_observacao`) — mantidos como estão, pois
+  representam ausência real de informação, não erro. Nenhum nulo encontrado nas
+  colunas usadas nos KPIs principais (valor total, preço unitário, quantidade,
+  fornecedor).
+- Encontrados nulos pontuais em `no_instituicao` (8 a 95 registros por ano,
+  conforme o ano), coluna usada no KPI "Instituições compradoras". Como essas
+  linhas mantêm valores financeiros válidos, optou-se por preencher com o rótulo
+  "Não informado" em vez de remover o registro, evitando perda de dado financeiro
+  real por causa de um único campo ausente.
 
 <!-- Encoding, nulos, duplicados, padronização de colunas, datas, valores monetários. Liste discrepâncias entre anos e como foram resolvidas (ver docs/discrepancias-entre-anos.md). -->
 
