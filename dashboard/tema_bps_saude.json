@@ -1,0 +1,75 @@
+{
+  "name": "BPS Saúde Pública",
+  "dataColors": [
+    "#0E7C7B",
+    "#1B5E7A",
+    "#2E9E83",
+    "#4A90A4",
+    "#7FB069",
+    "#D4A574",
+    "#8B6F9E",
+    "#5C7A89"
+  ],
+  "background": "#F5F9F8",
+  "foreground": "#1A2E35",
+  "tableAccent": "#0E7C7B",
+  "good": "#2E9E83",
+  "neutral": "#D4A574",
+  "bad": "#B85450",
+  "maximum": "#0E7C7B",
+  "center": "#4A90A4",
+  "minimum": "#E8F4F3",
+  "null": "#C4C4C4",
+  "textClasses": {
+    "callout": {
+      "color": "#0E7C7B",
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 32
+    },
+    "title": {
+      "color": "#1A2E35",
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 14
+    },
+    "header": {
+      "color": "#1A2E35",
+      "fontFace": "Segoe UI",
+      "fontSize": 12
+    },
+    "label": {
+      "color": "#4A5A61",
+      "fontFace": "Segoe UI",
+      "fontSize": 10
+    }
+  },
+  "visualStyles": {
+    "*": {
+      "*": {
+        "background": [
+          {
+            "show": true,
+            "color": { "solid": { "color": "#FFFFFF" } },
+            "transparency": 0
+          }
+        ],
+        "border": [
+          {
+            "show": true,
+            "color": { "solid": { "color": "#E0E6E8" } },
+            "radius": 6
+          }
+        ]
+      }
+    },
+    "card": {
+      "*": {
+        "labels": [
+          { "color": { "solid": { "color": "#0E7C7B" } }, "fontSize": 28, "fontFamily": "Segoe UI Semibold" }
+        ],
+        "categoryLabels": [
+          { "color": { "solid": { "color": "#4A5A61" } }, "fontSize": 11 }
+        ]
+      }
+    }
+  }
+}

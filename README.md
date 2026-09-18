@@ -53,6 +53,18 @@
   ao ano do arquivo (ex: 2020 varia de 01/01/2020 a 31/12/2020, sem valores
   fora da faixa). As colunas numéricas (`vl_preco_unitario`, `vl_preco_total`,
   `qt_medicamento`) já vieram corretamente tipadas na leitura original.
+- Identificação e tratamento de outliers extremos: durante a análise no Power BI, o
+  cartão "Valor Total Registrado" apresentou um valor de aproximadamente R$ 10 trilhões
+  — incompatível com a escala real de compras públicas de saúde no Brasil. Isso motivou
+  o retorno ao notebook de tratamento (VS Code) para investigação da causa. Identificou-se
+  que 7 registros (de 367.443) apresentavam vl_preco_total acima de R$ 1 bilhão numa
+  única compra, somando R$ 60,4 bilhões — valor incompatível com o preço real de mercado
+  dos itens envolvidos (ex: amoxicilina genérica a R$ 51.038,16 por unidade, insulina NPH
+  a R$ 45.715,00 por unidade). O padrão é consistente com erro de captura/digitação na
+  base pública original (provável deslocamento de casas decimais ou confusão de unidade
+  monetária), não com preços de mercado reais. Esses 7 registros foram removidos da base
+  tratada, e a base consolidada foi regravada e recarregada no Power BI (base final:
+  367.436 registros).
 
 <!-- Encoding, nulos, duplicados, padronização de colunas, datas, valores monetários. Liste discrepâncias entre anos e como foram resolvidas (ver docs/discrepancias-entre-anos.md). -->
 
@@ -86,6 +98,12 @@
 <!-- 3-5 recomendações objetivas para gestão pública/negociação de compras. -->
 
 ## 11. Limitações identificadas
+
+- A base bruta do BPS contém registros com valores de preço unitário e total claramente
+  incompatíveis com a realidade de mercado (provável erro de digitação na fonte oficial).
+  Embora os 7 casos mais extremos tenham sido removidos, é possível que existam distorções
+  menores não identificadas nesta análise, já que o critério de corte (R$ 1 bilhão por
+  registro) foi definido para capturar apenas os casos mais evidentes.
 
 <!-- Ex: variações de preço não implicam sobrepreço automaticamente; possíveis lacunas na base; diferenças de estrutura entre anos. -->
 
