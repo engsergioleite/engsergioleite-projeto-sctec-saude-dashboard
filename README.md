@@ -25,34 +25,13 @@
 ## 5. Tratamentos e transformações realizadas
 
 - Leitura dos 7 arquivos anuais (2020-2026) com separador `;` e encoding UTF-8.
-- Verificação de estrutura: os 7 anos apresentam schema idêntico (36 colunas,
-  mesmos nomes de coluna em todos os anos) — nenhuma discrepância de nomenclatura
-  ou de colunas ausentes/extras entre os anos.
-- Observação relevante: o volume de registros cai de forma expressiva a partir
-  de 2023. Anos 2020-2022 concentram entre ~85 mil e ~90 mil registros/ano,
-  enquanto 2023-2025 apresentam entre ~28 mil e ~34 mil registros/ano, e 2026
-  (parcial, ano em curso) tem 11 mil registros até o momento da coleta.
-- (a completar após Sprint 2: tratamento de nulos, duplicados e tipos de dado)
-- Verificação de valores nulos: identificados nulos e esperados em
-  campos que não se aplicam a todo item (ex: `vl_capacidade`, `un_fornecimento`,
-  `registro_anvisa`, `nu_ata`, `ds_observacao`) — mantidos como estão, pois
-  representam ausência real de informação, não erro. Nenhum nulo encontrado nas
-  colunas usadas nos KPIs principais (valor total, preço unitário, quantidade,
-  fornecedor).
-- Encontrados nulos pontuais em `no_instituicao` (8 a 95 registros por ano,
-  conforme o ano), coluna usada no KPI "Instituições compradoras". Como essas
-  linhas mantêm valores financeiros válidos, optou-se por preencher com o rótulo
-  "Não informado" em vez de remover o registro, evitando perda de dado financeiro
+- Verificação de estrutura: os 7 anos apresentam schema idêntico (36 colunas, mesmos nomes de coluna em todos os anos) — nenhuma discrepância de nomenclatura ou de colunas ausentes/extras entre os anos.
+- Observação relevante: o volume de registros cai de forma expressiva a partir de 2023. Anos 2020-2022 concentram entre ~85 mil e ~90 mil registros/ano, enquanto 2023-2025 apresentam entre ~28 mil e ~34 mil registros/ano, e 2026 (parcial, ano em curso) tem 11 mil registros até o momento da coleta.
+- Verificação de valores nulos: identificados nulos e esperados em campos que não se aplicam a todo item (ex: `vl_capacidade`, `un_fornecimento`, `registro_anvisa`, `nu_ata`, `ds_observacao`) — mantidos como estão, pois representam ausência real de informação, não erro. Nenhum nulo encontrado nas colunas usadas nos KPIs principais (valor total, preço unitário, quantidade, fornecedor).
+- Encontrados nulos pontuais em `no_instituicao` (8 a 95 registros por ano, conforme o ano), coluna usada no KPI "Instituições compradoras". Como essas linhas mantêm valores financeiros válidos, optou-se por preencher com o rótulo "Não informado" em vez de remover o registro, evitando perda de dado financeiro
   real por causa de um único campo ausente.
-- Verificação de registros duplicados: nenhuma linha duplicada encontrada nos
-  7 anos, tanto considerando todas as colunas quanto a chave única de registro
-  (`co_seq_bps`), que se confirmou sem repetições em nenhum dos anos.
-- Conversão de tipos: `dt_compra` e `dt_insercao` vieram como texto (`str`,
-  formato dd/mm/aaaa) e foram convertidas para tipo data (`datetime64`) com
-  `pd.to_datetime`. Validado que o intervalo de datas de cada ano corresponde
-  ao ano do arquivo (ex: 2020 varia de 01/01/2020 a 31/12/2020, sem valores
-  fora da faixa). As colunas numéricas (`vl_preco_unitario`, `vl_preco_total`,
-  `qt_medicamento`) já vieram corretamente tipadas na leitura original.
+- Verificação de registros duplicados: nenhuma linha duplicada encontrada nos 7 anos, tanto considerando todas as colunas quanto a chave única de registro (`co_seq_bps`), que se confirmou sem repetições em nenhum dos anos.
+- Conversão de tipos: `dt_compra` e `dt_insercao` vieram como texto (`str`, formato dd/mm/aaaa) e foram convertidas para tipo data (`datetime64`) com `pd.to_datetime`. Validado que o intervalo de datas de cada ano corresponde ao ano do arquivo (ex: 2020 varia de 01/01/2020 a 31/12/2020, sem valores fora da faixa). As colunas numéricas (`vl_preco_unitario`, `vl_preco_total`, `qt_medicamento`) já vieram corretamente tipadas na leitura original.
 
 <!-- Encoding, nulos, duplicados, padronização de colunas, datas, valores monetários. Liste discrepâncias entre anos e como foram resolvidas (ver docs/discrepancias-entre-anos.md). -->
 
@@ -79,13 +58,30 @@
 
 ## 9. Principais análises e descobertas
 
+* **Concentração geográfica acentuada**: São Paulo concentra o maior volume financeiro de compras (R$ 24 Bi), muito à frente do segundo colocado. Os 5 primeiros estados somados (SP, PR, CE, RS, RJ) representam a grande maioria do valor total registrado, enquanto a maior parte dos demais estados aparece com participação residual.
+* **Pregão domina como modalidade de compra**: das 367.436 compras analisadas, 332.382 (cerca de 90%) foram realizadas via Pregão. As demais modalidades (Registro de Preços,  Dispensa de Licitação, Tomada de Preços etc.) somadas representam uma fração pequena do total de registros.
+* **Forte concentração por grupo de produto**: a categoria "Equipamentos e artigos para uso médico, odontológico e veterinário" responde por R\$ 54 Bi do valor total, enquanto os outros 3 grupos identificados na base (Subsistência; Substâncias e produtos químicos; Instrumentos e equipamentos de laboratório) somados não chegam a R\$ 1 Bi.
+* **Queda expressiva no volume de registros a partir de 2023**: os anos de 2020 a 2022 concentram entre ~85 mil e ~90 mil registros/ano, enquanto 2023 a 2025 caem para a faixa de ~28 mil a ~34 mil registros/ano (2026, parcial, apresenta 11 mil até o momento da coleta). A causa dessa queda não foi determinada nesta análise — pode refletir tanto uma mudança real no padrão de compras quanto uma alteração na forma de alimentação da base pelos entes federados.
+
+- **Inconsistências de qualidade de dado identificadas e tratadas**: 7 registros (de 367.443 originais) apresentaram valores de preço unitário e total incompatíveis com o preço real de mercado dos itens (ex: amoxicilina genérica registrada a R\$ 51.038,16 por unidade), somando R\$ 60,4 Bi em valor artificial. Esses registros foram removidos da base tratada. Esse achado reforça a orientação do próprio edital de que diferenças de preço não devem ser interpretadas automaticamente como sobrepreço ou economia sem
+  investigação — no caso, tratava-se de erro de digitação/captura na fonte.
+
 <!-- Bullets com os achados mais relevantes por estado/instituição/produto/fornecedor/tempo. -->
 
 ## 10. Recomendações baseadas nos dados
 
+- **Auditoria de qualidade de dado na fonte**: recomenda-se que o Ministério da Saúde implemente validações automáticas de faixa de valor (ex: alertar registros com preço unitário muito acima da mediana histórica do mesmo item) no momento da inserção dos dados no BPS, para reduzir a ocorrência de outliers como os identificados nesta análise.
+- **Aproveitar o volume de Pregão para benchmarking de preços**: como ~90% das compras usam Pregão, há uma base de comparação robusta para identificar variações de preço unitário entre instituições/fornecedores para o mesmo item dentro dessa modalidade, apoiando negociações futuras.
+- **Investigar a concentração em "Equipamentos e artigos para uso médico"**: dado o peso desproporcional desse grupo no valor total, vale um estudo específico sobre os itens mais representativos dentro dele, para identificar oportunidades de compra centralizada ou negociação em maior escala.
+- **Investigar a causa da queda de registros pós-2023**: antes de qualquer conclusão sobre redução real de compras, recomenda-se confirmar junto às fontes se houve mudança na obrigatoriedade ou no processo de alimentação da base pelos entes federados a partir desse período.
+
 <!-- 3-5 recomendações objetivas para gestão pública/negociação de compras. -->
 
 ## 11. Limitações identificadas
+
+- A remoção dos 7 outliers extremos usou um critério simples (valor total acima de R\$ 1 bilhão por registro), suficiente para capturar os casos mais evidentes, mas não garante que distorções menores de mesma natureza não estejam presentes na base restante.
+- A queda de volume de registros a partir de 2023 não foi investigada até a causa raiz; a análise não permite distinguir entre redução real de compras e mudança na coleta/alimentação da base.
+- Variações de preço entre produtos, instituições ou fornecedores não devem ser interpretadas como evidência de sobrepreço ou economia sem investigação adicional (apresentação, fabricante, unidade de fornecimento, quantidade e modalidade influenciam o preço), conforme já alertado no enunciado do projeto.
 
 <!-- Ex: variações de preço não implicam sobrepreço automaticamente; possíveis lacunas na base; diferenças de estrutura entre anos. -->
 
@@ -113,8 +109,10 @@ pip install pandas
 
 # 5. Abrir o arquivo consolidado no Power BI Desktop para explorar o dashboard
 ```
+
 ```
 
 ## Vídeo de apresentação
 
 Link: (inserir link do vídeo, hospedado no repositório ou YouTube não listado)
+```
