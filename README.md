@@ -30,7 +30,7 @@
 - Verificação de valores nulos: identificados nulos e esperados em campos que não se aplicam a todo item (ex: `vl_capacidade`, `un_fornecimento`, `registro_anvisa`, `nu_ata`, `ds_observacao`) — mantidos como estão, pois representam ausência real de informação, não erro. Nenhum nulo encontrado nas colunas usadas nos KPIs principais (valor total, preço unitário, quantidade, fornecedor).
 - Encontrados nulos pontuais em `no_instituicao` (8 a 95 registros por ano, conforme o ano), coluna usada no KPI "Instituições compradoras". Como essas linhas mantêm valores financeiros válidos, optou-se por preencher com o rótulo "Não informado" em vez de remover o registro, evitando perda de dado financeiro
   real por causa de um único campo ausente.
-<<<<<<< HEAD
+  <<<<<<< HEAD
 - Verificação de registros duplicados: nenhuma linha duplicada encontrada nos
   7 anos, tanto considerando todas as colunas quanto a chave única de registro
   (`co_seq_bps`), que se confirmou sem repetições em nenhum dos anos.
@@ -52,10 +52,17 @@
   monetária), não com preços de mercado reais. Esses 7 registros foram removidos da base
   tratada, e a base consolidada foi regravada e recarregada no Power BI (base final:
   367.436 registros).
-=======
+  =======
 - Verificação de registros duplicados: nenhuma linha duplicada encontrada nos 7 anos, tanto considerando todas as colunas quanto a chave única de registro (`co_seq_bps`), que se confirmou sem repetições em nenhum dos anos.
 - Conversão de tipos: `dt_compra` e `dt_insercao` vieram como texto (`str`, formato dd/mm/aaaa) e foram convertidas para tipo data (`datetime64`) com `pd.to_datetime`. Validado que o intervalo de datas de cada ano corresponde ao ano do arquivo (ex: 2020 varia de 01/01/2020 a 31/12/2020, sem valores fora da faixa). As colunas numéricas (`vl_preco_unitario`, `vl_preco_total`, `qt_medicamento`) já vieram corretamente tipadas na leitura original.
+
 >>>>>>> feature/analise-resultados
+>>>>>>>
+>>>>>>
+>>>>>
+>>>>
+>>>
+>>
 
 <!-- Encoding, nulos, duplicados, padronização de colunas, datas, valores monetários. Liste discrepâncias entre anos e como foram resolvidas (ver docs/discrepancias-entre-anos.md). -->
 
@@ -77,6 +84,8 @@
 | Preço unitário médio ponderado   | valor total / quantidade total   | Interpretar com cautela ao filtrar produtos/unidades diferentes |
 
 ## 8. Link ou imagens do dashboard
+
+
 
 <!-- Link público do Looker Studio ou Power BI + prints em dashboard/imagens/ -->
 
@@ -103,17 +112,9 @@
 
 ## 11. Limitações identificadas
 
-<<<<<<< HEAD
-- A base bruta do BPS contém registros com valores de preço unitário e total claramente
-  incompatíveis com a realidade de mercado (provável erro de digitação na fonte oficial).
-  Embora os 7 casos mais extremos tenham sido removidos, é possível que existam distorções
-  menores não identificadas nesta análise, já que o critério de corte (R$ 1 bilhão por
-  registro) foi definido para capturar apenas os casos mais evidentes.
-=======
-- A remoção dos 7 outliers extremos usou um critério simples (valor total acima de R\$ 1 bilhão por registro), suficiente para capturar os casos mais evidentes, mas não garante que distorções menores de mesma natureza não estejam presentes na base restante.
-- A queda de volume de registros a partir de 2023 não foi investigada até a causa raiz; a análise não permite distinguir entre redução real de compras e mudança na coleta/alimentação da base.
+- A base bruta do BPS contém registros com valores de preço unitário e total claramente incompatíveis com a realidade de mercado (provável erro de digitação na fonte oficial). A remoção usou um critério simples (valor total acima de R\$ 1 bilhão por registro), suficiente para capturar os 7 casos mais extremos, mas não garante que distorções menores de mesma natureza não estejam presentes na base restante.
+- A queda de volume de registros a partir de 2023 não foi investigada até a causa raiz; a análise não permite distinguir entre redução real de compras e mudança na coleta/ alimentação da base.
 - Variações de preço entre produtos, instituições ou fornecedores não devem ser interpretadas como evidência de sobrepreço ou economia sem investigação adicional (apresentação, fabricante, unidade de fornecimento, quantidade e modalidade influenciam o preço), conforme já alertado no enunciado do projeto.
->>>>>>> feature/analise-resultados
 
 <!-- Ex: variações de preço não implicam sobrepreço automaticamente; possíveis lacunas na base; diferenças de estrutura entre anos. -->
 
