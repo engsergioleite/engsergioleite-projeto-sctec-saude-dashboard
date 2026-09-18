@@ -5,9 +5,14 @@
 
 ## 1. Objetivo do projeto
 
+Este projeto entrega um dashboard analítico em Power BI para acompanhar as compras públicas de medicamentos e dispositivos médicos registradas no Banco de Preços em Saúde (BPS) entre 2020 e 2026. Destina-se a gestores públicos, analistas de compras e instituições de saúde que precisam comparar preços, identificar concentrações de gasto por estado, fornecedor e modalidade, e apoiar decisões de planejamento e negociação.
+
 <!-- Em 3-4 linhas: o que o dashboard entrega e para quem. -->
 
 ## 2. Contextualização do problema
+
+A gestão eficiente de recursos públicos na área da saúde exige acompanhar um grande volume de compras, envolvendo múltiplos fornecedores, modalidades de aquisição e uma ampla variedade de medicamentos e dispositivos médicos. Sem ferramentas de visualização, essas informações ficam dispersas em bases brutas, dificultando a identificação de padrões, variações de preço relevantes e oportunidades de negociação. Este projeto usa Visualização de Dados e Business Intelligence para transformar os dados públicos do BPS
+em indicadores e análises que apoiam esse acompanhamento.
 
 <!-- Por que preços/compras públicas de saúde importam. Reaproveite o contexto do BPS. -->
 
