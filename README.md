@@ -25,6 +25,21 @@ em indicadores e análises que apoiam esse acompanhamento.
 
 ## 4. Procedimentos para baixar e concatenar as bases
 
+Os arquivos anuais do BPS (2020 a 2026) foram baixados manualmente do Portal Brasileiro de Dados Abertos (https://dadosabertos.saude.gov.br/dataset/bps), selecionando o recurso em formato CSV de cada ano. Cada download veio compactado em `.zip`, extraído e renomeado para o padrão `2020.csv`, `2021.csv` ... `2026.csv`, salvos em `data/raw/`.
+
+A concatenação foi feita em Python, utilizando a biblioteca pandas, em um notebook Jupyter (`scripts/inspecao_base.ipynb`) no VS Code. O processo seguiu estas etapas:
+
+1. Leitura dos 7 arquivos com `pd.read_csv()`, especificando separador `;` e encoding UTF-8.
+2. Armazenamento de cada ano em um dicionário Python (`dfs`), indexado pelo ano.
+3. Comparação da estrutura de colunas entre os 7 anos, confirmando schema idêntico.
+4. Tratamento de nulos, verificação de duplicados e conversão de tipos (detalhado na
+   seção 5).
+5. Concatenação dos 7 DataFrames em uma única base com `pd.concat(dfs.values(), ignore_index=True)`.
+6. Exportação da base consolidada para `data/processed/BPS_20_26_SergioLeite.csv` com
+   `to_csv()`.
+
+A base final resultante possui 367.436 registros e 36 colunas, cobrindo o período de 2020 a 2026.
+
 <!-- Passo a passo real do que você fez: onde baixou, como nomeou os arquivos, ferramenta usada para concatenar (python/excel/power query), link do script (scripts/concatenar_bases.py). -->
 
 ## 5. Tratamentos e transformações realizadasano_compra
