@@ -43,33 +43,31 @@ em indicadores e análises que apoiam esse acompanhamento.
 
 ## 6. Descrição das principais colunas utilizadas
 
-| Coluna                                                                 | Descrição                                                               | Tipo                |
-| ---------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------- |
-| ano_compra                                                             | Ano de referência da compra (2020 a 2026)                                | Numéricogit add .  |
-| git commit -m "docs: completa secao 6 com todas as colunas utilizadas" |                                                                           |                     |
-| git push                                                               |                                                                           |                     |
-| sg_uf                                                                  | Sigla do estado (UF) da instituição compradora                          | Texto               |
-| dt_compra                                                              | Data em que a compra foi realizada                                        | Data                |
-| ds_item                                                                | Descrição do medicamento/dispositivo médico adquirido                  | Texto               |
-| no_grupo                                                               | Categoria/grupo ao qual o item pertence (ex: Equipamentos, Subsistência) | Texto               |
-| no_instituicao                                                         | Nome da instituição compradora                                          | Texto               |
-| no_fornecedor                                                          | Nome do fornecedor da compra                                              | Texto               |
-| no_fabricante                                                          | Nome do fabricante do item                                                | Texto               |
-| modalidade                                                             | Modalidade de compra utilizada (Pregão, Dispensa de Licitação etc.)    | Texto               |
-| qt_medicamento                                                         | Quantidade adquirida na compra                                            | Numérico           |
-| vl_preco_unitario                                                      | Preço unitário do item na compra                                        | Numérico (decimal) |
-| vl_preco_total                                                         | Valor total da compra (preço unitário × quantidade)                    | Numérico (decimal) |
+| Coluna            | Descrição                                                               | Tipo                |
+| ----------------- | ------------------------------------------------------------------------- | ------------------- |
+| ano_compra        | Ano de referência da compra (2020 a 2026)                                | Numéricogit add .  |
+| sg_uf             | Sigla do estado (UF) da instituição compradora                          | Texto               |
+| dt_compra         | Data em que a compra foi realizada                                        | Data                |
+| ds_item           | Descrição do medicamento/dispositivo médico adquirido                  | Texto               |
+| no_grupo          | Categoria/grupo ao qual o item pertence (ex: Equipamentos, Subsistência) | Texto               |
+| no_instituicao    | Nome da instituição compradora                                          | Texto               |
+| no_fornecedor     | Nome do fornecedor da compra                                              | Texto               |
+| no_fabricante     | Nome do fabricante do item                                                | Texto               |
+| modalidade        | Modalidade de compra utilizada (Pregão, Dispensa de Licitação etc.)    | Texto               |
+| qt_medicamento    | Quantidade adquirida na compra                                            | Numérico           |
+| vl_preco_unitario | Preço unitário do item na compra                                        | Numérico (decimal) |
+| vl_preco_total    | Valor total da compra (preço unitário × quantidade)                    | Numérico (decimal) |
 
 ## 7. Definição dos KPIs e métricas
 
-| KPI                                 | Fórmula/Lógica                 | Observação                                                    |
-| ----------------------------------- | -------------------------------- | --------------------------------------------------------------- |
-| Valor total registrado              | SOMA(preco_total)                |                                                                 |
-| Quantidade total de itens comprados | SOMA(quantidade)                 |                                                                 |
-| Número de registros de compra      | CONTAGEM(linhas)                 |                                                                 |
-| Instituições compradoras          | CONTAGEM DISTINTA(instituição) |                                                                 |
-| Fornecedores                        | CONTAGEM DISTINTA(fornecedor)    |                                                                 |
-| Preço unitário médio ponderado   | valor total / quantidade total   | Interpretar com cautela ao filtrar produtos/unidades diferentes |
+| KPI                            | Fórmula/Lógica (DAX)                                            | Observação                                                     |
+| ------------------------------ | ----------------------------------------------------------------- | ---------------------------------------------------------------- |
+| Valor Total Registrado         | `SUM(BPS_20_26_SergioLeite[vl_preco_total])`                    | Soma de todas as compras, após remoção de 7 outliers extremos |
+| Quantidade Total de Itens      | `SUM(BPS_20_26_SergioLeite[qt_medicamento])`                    |                                                                  |
+| Numero de Registros            | `COUNTROWS(BPS_20_26_SergioLeite)`                              |                                                                  |
+| Instituicoes Compradoras       | `DISTINCTCOUNT(BPS_20_26_SergioLeite[no_instituicao])`          | Nulos preenchidos como "Não informado" antes do cálculo        |
+| Fornecedores                   | `DISTINCTCOUNT(BPS_20_26_SergioLeite[no_fornecedor])`           |                                                                  |
+| Preco Unitario Medio Ponderado | `DIVIDE([Valor Total Registrado], [Quantidade Total de Itens])` | Interpretar com cautela ao filtrar produtos/unidades diferentes  |
 
 ## 8. Link ou imagens do dashboard
 
